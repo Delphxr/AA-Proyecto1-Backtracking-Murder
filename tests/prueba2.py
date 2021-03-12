@@ -29,11 +29,15 @@ def get_cartas_iniciales():
 solucion_cartas = get_cartas_iniciales()
 
 
-def solucion_backtracking(cartas, solucion):
+def solucion_backtracking(cartas, solucion, ultima_carta):
     global encontrado
     global cartas_incorrectas
     global cartas_correctas
+
     print(solucion)
+
+    if ultima_carta in cartas_incorrectas:
+        return
 
     if encontrado == True:
         return
@@ -44,9 +48,6 @@ def solucion_backtracking(cartas, solucion):
             print("------------------------------------------ WIN  ----------------------------------")
             encontrado = True
             return solucion
-        else:
-            print("Combinación incorrecta")
-            pass
 
         solucion = []
     else:
@@ -59,12 +60,12 @@ def solucion_backtracking(cartas, solucion):
                     #print(solucion + [j])
                     if j not in cartas_correctas:
                         cartas_correctas = cartas_correctas + [j]
-                        solucion_backtracking(cartas, solucion + [j])
                 else:
                     if j not in cartas_incorrectas:
-                        print(solucion + [j])
+                        #print(solucion + [j])
                         cartas_incorrectas = cartas_incorrectas + [j]
 
+                solucion_backtracking(cartas, solucion + [j], j)
 
 
-print(solucion_backtracking(cartas_juego,[]))
+print(solucion_backtracking(cartas_juego,[], "prueba"))
