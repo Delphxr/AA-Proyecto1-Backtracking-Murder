@@ -1,5 +1,6 @@
 import random
 import os
+import sys
 
 sospechosos =  ["amigo", "novio", "vecino", "mensajero", "extranno", "hermanastro", "colega de trabajo"]
 armas = ["pistola", "cuchillo", "machete", "pala", "bate", "botella", "tubo", "cuerda"]
@@ -34,14 +35,13 @@ def solucion_backtracking(cartas, solucion, ultima_carta):
     global cartas_incorrectas
     global cartas_correctas
 
+    if encontrado == True:
+        return
+
     print(solucion)
 
     if ultima_carta in cartas_incorrectas:
         return
-
-    if encontrado == True:
-        return
-    solucion_temporal = []
 
     if len(solucion) == len(cartas_juego):
         if solucion == solucion_cartas:
@@ -54,15 +54,11 @@ def solucion_backtracking(cartas, solucion, ultima_carta):
         for i in cartas: # cada i es una categoria de las cartas del juego
             cartas = cartas[1:]
             for j in i: # cada j es un item perteneciente a una categoria
-                #print(j)
                 if j in solucion_cartas: # Si el item es parte de la solucion
-                    #print("Parte de la solucion encontrada es:",j)
-                    #print(solucion + [j])
                     if j not in cartas_correctas:
                         cartas_correctas = cartas_correctas + [j]
                 else:
                     if j not in cartas_incorrectas:
-                        #print(solucion + [j])
                         cartas_incorrectas = cartas_incorrectas + [j]
 
                 solucion_backtracking(cartas, solucion + [j], j)
