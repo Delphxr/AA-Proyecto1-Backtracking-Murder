@@ -64,4 +64,4 @@ def solucion_backtracking(cartas, solucion, ultima_carta):
                 solucion_backtracking(cartas, solucion + [j], j)
 
 
-print(solucion_backtracking(cartas_juego,[], "prueba"))
+print(solucion_backtracking(cartas_juego,[], ""))
