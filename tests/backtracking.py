@@ -11,6 +11,7 @@ lugares = ["sala", "comedor", "banno", "terraza", "cuarto", "garage", "patio", "
 cartas_juego = [sospechosos,armas,motivos,partes_del_cuerpo,lugares]
 cartas_correctas = []
 cartas_incorrectas = []
+parejas_restringidas = []
 
 encontrado = False
 
@@ -33,6 +34,7 @@ def solucion_backtracking(cartas, solucion, parejas):
     global encontrado
     global cartas_incorrectas
     global cartas_correctas
+    global parejas_restringidas
 
     if encontrado == True:
         return
@@ -49,6 +51,10 @@ def solucion_backtracking(cartas, solucion, parejas):
                 if x in cartas_incorrectas:
                     return
 
+            for z in parejas_restringidas:
+                if all(item in solucion for item in z) == True: #si tiene una pareja que fue detectada como restringida entonces se retorna
+                    return
+
             print(solucion)
             randomIncorrecta = random.choice(solucion)
 
@@ -59,8 +65,9 @@ def solucion_backtracking(cartas, solucion, parejas):
             print("Incorrecta. Marcada:",randomIncorrecta)
 
             for y in parejas: # y es una pareja de la lista de parejas
-                if all(item in solucion for item in y) == True: # si tiene ambos objetos de la pareja en la solucion entonces no es una solucion valida
-                    print("Contiene pareja restringida")
+                if all(item in solucion for item in y) == True: #si tiene ambos objetos de la pareja en la solucion entonces no es una solucion valida
+                    parejas_restringidas = parejas_restringidas + [y]
+                    print("Contiene pareja restringida:",y)
                     return
 
         solucion = []
@@ -79,6 +86,9 @@ def corrida_backtracking(numParejas):
 
         cartasPareja = random.choice(cartas_juego)
         pareja2 = random.choice(cartasPareja)
+
+        while pareja1 == pareja2:
+            pareja2 = random.choice(cartasPareja)
 
         parejas = parejas + [[pareja1] + [pareja2]]
 
