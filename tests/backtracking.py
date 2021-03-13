@@ -17,7 +17,6 @@ encontrado = False
 
 def get_cartas_iniciales():
     """[obtenemos la combinacion de cartas iniciales que debemos buscar]
-
     Returns:
         [array]: [array con las cartas obtenidas]
     """
@@ -30,7 +29,7 @@ def get_cartas_iniciales():
 solucion_cartas = get_cartas_iniciales()
 
 
-def solucion_backtracking(cartas, solucion, ultima_carta):
+def solucion_backtracking(cartas, solucion):
     global encontrado
     global cartas_incorrectas
     global cartas_correctas
@@ -40,14 +39,18 @@ def solucion_backtracking(cartas, solucion, ultima_carta):
 
     print(solucion)
 
-    if ultima_carta in cartas_incorrectas:
-        return
+    for z in solucion:
+        if z in cartas_incorrectas:
+            return
 
     if len(solucion) == len(cartas_juego):
         if solucion == solucion_cartas:
             print("------------------------------------------ WIN  ----------------------------------")
             encontrado = True
             return solucion
+        else:
+            randomIncorrecta = random.choice(solucion)
+            cartas_incorrectas = cartas_incorrectas + [randomIncorrecta]
 
         solucion = []
     else:
@@ -61,7 +64,24 @@ def solucion_backtracking(cartas, solucion, ultima_carta):
                     if j not in cartas_incorrectas:
                         cartas_incorrectas = cartas_incorrectas + [j]
 
-                solucion_backtracking(cartas, solucion + [j], j)
+                solucion_backtracking(cartas, solucion + [j])
 
+def corrida_backtracking(numParejas):
 
-print(solucion_backtracking(cartas_juego,[], ""))
+    parejas = []
+    while numParejas != 0:
+        cartasPareja = random.choice(cartas_juego)
+        pareja = random.choice(cartasPareja)
+        parejas = parejas + [pareja]
+
+        cartasPareja = random.choice(cartas_juego)
+        pareja = random.choice(cartasPareja)
+        parejas = parejas + [pareja]
+
+        numParejas = numParejas - 1
+
+    print("parejas:",parejas)
+
+    print(solucion_backtracking(cartas_juego, []))
+
+corrida_backtracking(1)
