@@ -37,33 +37,27 @@ def solucion_backtracking(cartas, solucion):
     if encontrado == True:
         return
 
-    print(solucion)
-
-    for z in solucion:
-        if z in cartas_incorrectas:
-            return
-
     if len(solucion) == len(cartas_juego):
         if solucion == solucion_cartas:
+            print(solucion)
             print("------------------------------------------ WIN  ----------------------------------")
             encontrado = True
             return solucion
         else:
+            for x in solucion:
+                if x in cartas_incorrectas:
+                    return
+
+            print(solucion)
             randomIncorrecta = random.choice(solucion)
             cartas_incorrectas = cartas_incorrectas + [randomIncorrecta]
+            print("Incorrecta. Marcada:",randomIncorrecta)
 
         solucion = []
     else:
         for i in cartas: # cada i es una categoria de las cartas del juego
             cartas = cartas[1:]
             for j in i: # cada j es un item perteneciente a una categoria
-                if j in solucion_cartas: # Si el item es parte de la solucion
-                    if j not in cartas_correctas:
-                        cartas_correctas = cartas_correctas + [j]
-                else:
-                    if j not in cartas_incorrectas:
-                        cartas_incorrectas = cartas_incorrectas + [j]
-
                 solucion_backtracking(cartas, solucion + [j])
 
 def corrida_backtracking(numParejas):
