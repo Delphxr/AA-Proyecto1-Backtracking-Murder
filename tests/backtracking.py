@@ -3,7 +3,7 @@ import os
 import sys
 import time
 
-sospechosos =  ["amigo", "novio", "vecino", "mensajero", "extranno", "hermanastro", "colega de trabajo"]
+sospechosos =  ["amigo", "novia", "vecino", "mensajero", "extranno", "hermanastro", "colega de trabajo"]
 armas = ["pistola", "cuchillo", "machete", "pala", "bate", "botella", "tubo", "cuerda"]
 motivos = ["venganza", "celos", "dinero", "accidente", "drogas", "robo"]
 partes_del_cuerpo = ["cabeza", "pecho", "abdomen", "espalda", "piernas", "brazos"]
