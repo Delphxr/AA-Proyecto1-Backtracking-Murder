@@ -3,7 +3,7 @@ import os
 import sys
 import time
 
-sospechosos =  ["amigo", "novia", "vecino", "mensajero", "extranno", "hermanastro", "colega de trabajo"]
+sospechosos =  ["amigo", "novia", "vecino", "mensajero", "extranno", "hermanastro", "colegaDeTrabajo"]
 armas = ["pistola", "cuchillo", "machete", "pala", "bate", "botella", "tubo", "cuerda"]
 motivos = ["venganza", "celos", "dinero", "accidente", "drogas", "robo"]
 partes_del_cuerpo = ["cabeza", "pecho", "abdomen", "espalda", "piernas", "brazos"]
@@ -115,7 +115,7 @@ def corrida_backtracking(numParejas):
 
     print(solucion_backtracking(cartas_juego, solucion_cartas, [], parejas))
 
-timeBefore = time.time_ns()
-corrida_backtracking(15)
-timeAfter = time.time_ns()
-print("Tiempo total de runtime:",timeAfter - timeBefore)
+#timeBefore = time.time_ns()
+#corrida_backtracking(15)
+#timeAfter = time.time_ns()
+#print("Tiempo total de runtime:",timeAfter - timeBefore)

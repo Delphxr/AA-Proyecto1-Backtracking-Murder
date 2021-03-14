@@ -1,4 +1,5 @@
 import tkinter
+import backtracking
 
 # ojo, si este import no funciona tiene que usar esto en la terminal -> pip install pillow
 from PIL import ImageTk, Image
@@ -125,15 +126,8 @@ def actualizar_cartas(cartas):
     
 def callback(e):
     #esto se activa cada vez que apretamos enter, lo uso para probar la actualizacion de cartas
-    global bool_test
-    bool_test = (bool_test+1)%3
-
-    if bool_test == 0:
-        actualizar_cartas(test_array_cartas)
-    elif bool_test == 1:
-        actualizar_cartas(test_array_cartas2)
-    else:
-        actualizar_cartas(test_array_cartas3)
+    new_cartas = backtracking.get_cartas_iniciales()
+    actualizar_cartas(new_cartas)
 
 
 
