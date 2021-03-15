@@ -1,4 +1,5 @@
 import tkinter
+from tkinter import ttk
 import backtracking
 
 # ojo, si este import no funciona tiene que usar esto en la terminal -> pip install pillow
@@ -16,128 +17,225 @@ ruta_lugares = "../Assets/Images/Cartas/Lugares/"
 test_array_cartas = ["novia", "bate", "dinero", "cabeza", "banno"]
 test_array_cartas2 = ["mensajero", "bate", "dinero", "cabeza", "banno"]
 test_array_cartas3 = ["amigo", "bate", "dinero", "cabeza", "banno"]
-bool_test = 0
+# ------------------------------------------#
 
 
 
-
-
+# ------------- Creamos la ventana del programa ------------------ #
 ventana = tkinter.Tk() #creamos la ventana
 ventana.geometry("1280x720") #resolucion de la ventana
 ventana.title("Pigclue") #titulo de la ventana
 
+# ----------------------------------------------------------------#
 
-
-imagen_fondo = ImageTk.PhotoImage(Image.open("../Assets/Images/Fondo/fondo.png"))
+# ------------- Colocamos el fondo del programa -------------------------------------- #
+imagen_fondo = ImageTk.PhotoImage(Image.open("../Assets/Images/Fondo/fondoInfo.png"))
 fondo = tkinter.Label(ventana,image = imagen_fondo)
 fondo.pack()
-
-
-# ----------------- Inicializamos los labels de las primeras cartas ---------------------------#
-posicion_y = 200 #posicion en y
-posicion_x = 125 #pocision en x
-#----------- sospechoso --------------#
-label_sospechoso = tkinter.Label(ventana, text="") #creamos un label de prueba
-label_sospechoso.place(x=posicion_x,y=posicion_y)
-# ------------------------------------#
-
-posicion_x += 210
-#----------- armas --------------#
-label_arma = tkinter.Label(ventana, text="") #creamos un label de prueba
-label_arma.place(x=posicion_x,y=posicion_y)
-# ------------------------------------#
-
-posicion_x += 210
-#----------- razon --------------#
-label_razon = tkinter.Label(ventana, text="") #creamos un label de prueba
-label_razon.place(x=posicion_x,y=posicion_y)
-# ------------------------------------#
-
-posicion_x += 210
-#----------- cuerpo --------------#
-label_cuerpo = tkinter.Label(ventana, text="") #creamos un label de prueba
-label_cuerpo.place(x=posicion_x,y=posicion_y)
-# ------------------------------------#
-
-posicion_x += 210
-#----------- lugar --------------#
-label_lugar = tkinter.Label(ventana, text="") #creamos un label de prueba
-label_lugar.place(x=posicion_x,y=posicion_y)
-# ------------------------------------#
-# ----------------------------------------------------------------------------------#
-
-
-    
+# ------------------------------------------------------------------------------------- #
 
 
 
-def actualizar_cartas(cartas):
-    """[con esto actualizamos las imagenes de las cartas]
+# -------------- Creamos los labels de informacion -------------- #
 
-    Args:
-        cartas ([list]): [recibimos el string de siempre que usamos en el backtracking y en el bruteforce, es importante 
-                        que mantenga el orden de: [sospechoso, arma, razon, cuerpo, lugar]
-    """    
-    extencion = ".png" #formato de las imagenes
+#intentos
+cantidad_intentos =0
+variable_intentos = tkinter.StringVar()
+variable_intentos.set(cantidad_intentos)
+label_intentos = tkinter.Label(ventana,textvariable=variable_intentos,bg="#2c0317",fg="White")
+label_intentos.config(font=("Consolas", 28))
+label_intentos.place(x=1225,y=162)
 
-    #----------- sospechoso --------------#
-    load1 = Image.open(ruta_sospechosos + cartas[0] + extencion)
-    imagen1 = ImageTk.PhotoImage(load1)
+#% acierto backtracking
+porcentage_backtracking =0
+variable_porcentage_backtracking = tkinter.StringVar()
+variable_porcentage_backtracking.set(porcentage_backtracking)
+label_porcentage_backtracking = tkinter.Label(ventana,textvariable=variable_porcentage_backtracking,bg="#3c0620",fg="White")
+label_porcentage_backtracking.config(font=("Consolas", 24))
+label_porcentage_backtracking.place(x=1225,y=214)
 
-    label_sospechoso.configure(image=imagen1)
-    label_sospechoso.image = imagen1
-    # ------------------------------------#
+#% acierto fuerza bruta
+porcentage_bf =0
+variable_porcentage_bf = tkinter.StringVar()
+variable_porcentage_bf.set(porcentage_bf)
+label_porcentage_bf = tkinter.Label(ventana,textvariable=variable_porcentage_bf,bg="#2c0317",fg="White")
+label_porcentage_bf.config(font=("Consolas", 28))
+label_porcentage_bf.place(x=1225,y=260)
 
-    #----------- armas --------------#
-    load2 = Image.open(ruta_armas + cartas[1] + extencion)
-    imagen2 = ImageTk.PhotoImage(load2)
-
-    label_arma.configure(image=imagen2)
-    label_arma.image = imagen2
-    # ------------------------------------#
-
-    #----------- razon --------------#
-    load3 = Image.open(ruta_razon + cartas[2] + extencion)
-    imagen3 = ImageTk.PhotoImage(load3)
-
-    label_razon.configure(image=imagen3)
-    label_razon.image = imagen3
-    # ------------------------------------#
-
-
-    #----------- cuerpo --------------#
-    load4 = Image.open(ruta_cuerpo + cartas[3] + extencion)
-    imagen4 = ImageTk.PhotoImage(load4)
-
-    label_cuerpo.configure(image=imagen4)
-    label_cuerpo.image = imagen4
-    # ------------------------------------#
+# no de restrucciones
+cantidad_restricciones =0
+variable_restricciones = tkinter.StringVar()
+variable_restricciones.set(cantidad_restricciones)
+label_restricciones = tkinter.Label(ventana,textvariable=variable_restricciones,bg="#3c0620",fg="White")
+label_restricciones.config(font=("Consolas", 28))
+label_restricciones.place(x=1225,y=310)
 
 
-    #----------- lugar --------------#
-    load5 = Image.open(ruta_lugares + cartas[4] + extencion)
-    imagen5 = ImageTk.PhotoImage(load5)
-
-    label_lugar.configure(image=imagen5)
-    label_lugar.image = imagen5
-    # ------------------------------------#
+# ---------------------------------------------------------------- #
 
 
-    
-def callback(e):
-    #esto se activa cada vez que apretamos enter, lo uso para probar la actualizacion de cartas
+
+# -------------- Creamos el boton de siguiente paso -------------- #
+def boton_siguiente():
+    """[funcion que decide lo que sucede al presionar el boton de siguiente]
+    """
+    global cantidad_intentos
+    cantidad_intentos += 1
+    variable_intentos.set(cantidad_intentos)
+
     new_cartas = backtracking.get_cartas_iniciales()
-    actualizar_cartas(new_cartas)
+    cartas_fuerza_bruta.actualizar_cartas(new_cartas)
+
+load_siguiente = Image.open("../Assets/Images/Botones/siguiente.png")
+imagen_siguiente = ImageTk.PhotoImage(load_siguiente)
+boton_siguiente = tkinter.Button(ventana,image=imagen_siguiente, command=boton_siguiente)
+boton_siguiente.place(x=1200,y=640)
+# ---------------------------------------------------------------- #
 
 
 
+# -------------- Creamos el boton de reinicio -------------------- #
+def boton_reinicio():
+    """[funcion que decide lo que sucede al presionar el boton de reinicio]
+    """    
+    global cantidad_intentos
+    cantidad_intentos = 0
+    variable_intentos.set(cantidad_intentos)
 
+    new_cartas = backtracking.get_cartas_iniciales()
+    cartas_fuerza_bruta.actualizar_cartas(new_cartas)
+
+load_reinicio = Image.open("../Assets/Images/Botones/reiniciar.png")
+imagen_reinicio = ImageTk.PhotoImage(load_reinicio)
+boton_reinicio = tkinter.Button(ventana,image=imagen_reinicio, command=boton_reinicio)
+boton_reinicio.place(x=1100,y=640)
+# ---------------------------------------------------------------- #
+
+
+
+class Cartas():
+    """[esta clase la usamos cuando queremos crear otro conjunto de 5 cartas]
+    """    
+    def __init__(self,posicionx,posiciony,tamanno=[180,280],espacio=20):
+        """[creacion de un objeto cartas]
+
+        Args:
+            posicionx ([int]): [la posicion en x de la carta inicial]
+            posiciony ([int]): [la pocision en y de la carta inicial]
+            tamanno (list, optional): [el tamaño que van a tener las cartas, en pixeles]. Defaults to [180,280].
+            espacio ([int]): [la cantidad de pixeles entre cada carta]. Defaults to 20
+        """        
+        self.posicion_y = posiciony
+        self.posicion_x = posicionx
+        self.size_x = tamanno[0]
+        self.size_y = tamanno[1]
+        self.separacion = self.size_x + espacio
+
+        #inicializamos los valores de las cartas:
+
+        #----------- sospechoso --------------#
+        self.label_sospechoso = tkinter.Label(ventana, text="") #creamos un label de prueba
+        self.label_sospechoso.place(x=self.posicion_x,y=self.posicion_y)
+        # ------------------------------------#
+
+        self.posicion_x += self.separacion
+        #----------- armas --------------#
+        self.label_arma = tkinter.Label(ventana, text="") #creamos un label de prueba
+        self.label_arma.place(x=self.posicion_x,y=self.posicion_y)
+        # ------------------------------------#
+
+        self.posicion_x += self.separacion
+        #----------- razon --------------#
+        self.label_razon = tkinter.Label(ventana, text="") #creamos un label de prueba
+        self.label_razon.place(x=self.posicion_x,y=self.posicion_y)
+        # ------------------------------------#
+
+        self.posicion_x += self.separacion
+        #----------- cuerpo --------------#
+        self.label_cuerpo = tkinter.Label(ventana, text="") #creamos un label de prueba
+        self.label_cuerpo.place(x=self.posicion_x,y=self.posicion_y)
+        # ------------------------------------#
+
+        self.posicion_x += self.separacion
+        #----------- lugar --------------#
+        self.label_lugar = tkinter.Label(ventana, text="") #creamos un label de prueba
+        self.label_lugar.place(x=self.posicion_x,y=self.posicion_y)
+
+    def actualizar_cartas(self,cartas):
+        """[con esto actualizamos las imagenes de las cartas]
+
+        Args:
+            cartas ([list]): [recibimos el string de siempre que usamos en el backtracking y en el bruteforce, es importante 
+                            que mantenga el orden de: [sospechoso, arma, razon, cuerpo, lugar]
+        """    
+        extencion = ".png" #formato de las imagenes
+
+        #----------- sospechoso --------------#
+        self.load1 = Image.open(ruta_sospechosos + cartas[0] + extencion)
+        self.load1 = self.load1.resize((self.size_x, self.size_y), Image.NEAREST)
+        self.imagen1 = ImageTk.PhotoImage(self.load1)
+
+        self.label_sospechoso.configure(image=self.imagen1)
+        self.label_sospechoso.image = self.imagen1
+        # ------------------------------------#
+
+        #----------- armas --------------#
+        self.load2 = Image.open(ruta_armas + cartas[1] + extencion)
+        self.load2 = self.load2.resize((self.size_x, self.size_y), Image.NEAREST)
+        self.imagen2 = ImageTk.PhotoImage(self.load2)
+
+        self.label_arma.configure(image=self.imagen2)
+        self.label_arma.image = self.imagen2
+        # ------------------------------------#
+
+        #----------- razon --------------#
+        self.load3 = Image.open(ruta_razon + cartas[2] + extencion)
+        self.load3 = self.load3.resize((self.size_x, self.size_y), Image.NEAREST)
+        self.imagen3 = ImageTk.PhotoImage(self.load3)
+
+        self.label_razon.configure(image=self.imagen3)
+        self.label_razon.image = self.imagen3
+        # ------------------------------------#
+
+
+        #----------- cuerpo --------------#
+        self.load4 = Image.open(ruta_cuerpo + cartas[3] + extencion)
+        self.load4 = self.load4.resize((self.size_x, self.size_y), Image.NEAREST)
+        self.imagen4 = ImageTk.PhotoImage(self.load4)
+
+        self.label_cuerpo.configure(image=self.imagen4)
+        self.label_cuerpo.image = self.imagen4
+        # ------------------------------------#
+
+
+        #----------- lugar --------------#
+        self.load5 = Image.open(ruta_lugares + cartas[4] + extencion)
+        self.load5 = self.load5.resize((self.size_x, self.size_y), Image.NEAREST)
+        self.imagen5 = ImageTk.PhotoImage(self.load5)
+
+        self.label_lugar.configure(image=self.imagen5)
+        self.label_lugar.image = self.imagen5
+        # ------------------------------------#
+
+
+# ------------- generamos los sets de cartas necesarios para el programa -------- #
+cartas_fuerza_bruta = Cartas(160,45,[125,195])
+cartas_backtracking = Cartas(160,300,[125,195])
+cartas_respuesta = Cartas(918,358,[57,89],15)
+
+cartas_restriccion1 = Cartas(190,580,[82,127],60)
+cartas_restriccion2 = Cartas(160,555,[82,127],60)
+# --------------------------------------------------------------------------------#
 
 #para que tengamos unas imagenes al iniciar el programa
-actualizar_cartas(test_array_cartas)
+cartas_fuerza_bruta.actualizar_cartas(test_array_cartas)
+cartas_backtracking.actualizar_cartas(test_array_cartas)
+cartas_respuesta.actualizar_cartas(test_array_cartas)
+cartas_restriccion1.actualizar_cartas(test_array_cartas)
+cartas_restriccion2.actualizar_cartas(test_array_cartas)
 
 
-ventana.bind("<Return>",callback) #esto llama a callback cada vez que se apreta enter
+
 ventana.mainloop() #hacemos el gameloop
 
 
