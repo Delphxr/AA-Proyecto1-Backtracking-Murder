@@ -87,14 +87,12 @@ def boton_siguiente():
     global contador_solucion
     cantidad_intentos += 1
     variable_intentos.set(cantidad_intentos)
-    print(len(lista_soluciones))
 
     new_cartas = []
     if contador_solucion < len(lista_soluciones):
         new_cartas = lista_soluciones[contador_solucion]
-    cartas_fuerza_bruta.actualizar_cartas(new_cartas)
-    contador_solucion = contador_solucion + 1
-    print(contador_solucion)
+        cartas_fuerza_bruta.actualizar_cartas(new_cartas)
+        contador_solucion = contador_solucion + 1
 
 load_siguiente = Image.open("../Assets/Images/Botones/siguiente.png")
 imagen_siguiente = ImageTk.PhotoImage(load_siguiente)
