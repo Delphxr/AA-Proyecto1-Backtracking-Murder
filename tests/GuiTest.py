@@ -5,6 +5,15 @@ import backtracking
 # ojo, si este import no funciona tiene que usar esto en la terminal -> pip install pillow
 from PIL import ImageTk, Image
 
+global lista_soluciones
+global contador_solucion
+contador_solucion = 0
+
+lista_soluciones = backtracking.corrida_backtracking_alternativa(2,backtracking.get_cartas_iniciales())
+
+print("---------------------------------------------------------------------------------------------------------------------")
+print(lista_soluciones)
+
 #---------- Rutas Imagenes Cartas -------------- #
 ruta_sospechosos = "../Assets/Images/Cartas/Sospechosos/"
 ruta_armas = "../Assets/Images/Cartas/Armas/"
@@ -33,8 +42,6 @@ imagen_fondo = ImageTk.PhotoImage(Image.open("../Assets/Images/Fondo/fondoInfo.p
 fondo = tkinter.Label(ventana,image = imagen_fondo)
 fondo.pack()
 # ------------------------------------------------------------------------------------- #
-
-
 
 # -------------- Creamos los labels de informacion -------------- #
 
@@ -80,11 +87,17 @@ def boton_siguiente():
     """[funcion que decide lo que sucede al presionar el boton de siguiente]
     """
     global cantidad_intentos
+    global contador_solucion
     cantidad_intentos += 1
     variable_intentos.set(cantidad_intentos)
+    print(len(lista_soluciones))
 
-    new_cartas = backtracking.get_cartas_iniciales()
+    new_cartas = []
+    if contador_solucion < len(lista_soluciones):
+        new_cartas = lista_soluciones[contador_solucion]
     cartas_fuerza_bruta.actualizar_cartas(new_cartas)
+    contador_solucion = contador_solucion + 1
+    print(contador_solucion)
 
 load_siguiente = Image.open("../Assets/Images/Botones/siguiente.png")
 imagen_siguiente = ImageTk.PhotoImage(load_siguiente)
@@ -97,7 +110,7 @@ boton_siguiente.place(x=1200,y=640)
 # -------------- Creamos el boton de reinicio -------------------- #
 def boton_reinicio():
     """[funcion que decide lo que sucede al presionar el boton de reinicio]
-    """    
+    """
     global cantidad_intentos
     cantidad_intentos = 0
     variable_intentos.set(cantidad_intentos)
@@ -115,7 +128,7 @@ boton_reinicio.place(x=1100,y=640)
 
 class Cartas():
     """[esta clase la usamos cuando queremos crear otro conjunto de 5 cartas]
-    """    
+    """
     def __init__(self,posicionx,posiciony,tamanno=[180,280],espacio=20):
         """[creacion de un objeto cartas]
 
@@ -124,7 +137,7 @@ class Cartas():
             posiciony ([int]): [la pocision en y de la carta inicial]
             tamanno (list, optional): [el tamaño que van a tener las cartas, en pixeles]. Defaults to [180,280].
             espacio ([int]): [la cantidad de pixeles entre cada carta]. Defaults to 20
-        """        
+        """
         self.posicion_y = posiciony
         self.posicion_x = posicionx
         self.size_x = tamanno[0]
@@ -165,9 +178,9 @@ class Cartas():
         """[con esto actualizamos las imagenes de las cartas]
 
         Args:
-            cartas ([list]): [recibimos el string de siempre que usamos en el backtracking y en el bruteforce, es importante 
+            cartas ([list]): [recibimos el string de siempre que usamos en el backtracking y en el bruteforce, es importante
                             que mantenga el orden de: [sospechoso, arma, razon, cuerpo, lugar]
-        """    
+        """
         extencion = ".png" #formato de las imagenes
 
         #----------- sospechoso --------------#

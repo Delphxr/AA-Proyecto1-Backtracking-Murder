@@ -14,6 +14,9 @@ cartas_correctas = []
 cartas_incorrectas = []
 parejas_restringidas = []
 
+lista_soluciones = []
+respuesta_final = []
+
 encontrado = False
 
 
@@ -38,6 +41,8 @@ def solucion_backtracking(cartas, cartas_escogidas, solucion, parejas):
     global cartas_incorrectas
     global cartas_correctas
     global parejas_restringidas
+    global lista_soluciones
+    global respuesta_final
 
     if encontrado == True: # Si se encontro la solucion, se termina el algoritmo
         return
@@ -45,8 +50,10 @@ def solucion_backtracking(cartas, cartas_escogidas, solucion, parejas):
     if len(solucion) == len(cartas_juego): # Si se tiene la combinacion con las 5 cartas
         if solucion == cartas_escogidas: # Si la combinacion es igual a la solucion entonces se ha ganado
             print(solucion)
+            lista_soluciones = lista_soluciones + [solucion]
             print("------------------------------------------ WIN  ----------------------------------")
             encontrado = True
+            respuesta_final = solucion
             return solucion
 
         else: # Si la combinacion usa una de las cartas que han sido marcadas, se descarta
@@ -59,6 +66,7 @@ def solucion_backtracking(cartas, cartas_escogidas, solucion, parejas):
                     return
 
             print(solucion)
+            lista_soluciones = lista_soluciones + [solucion]
             randomIncorrecta = random.choice(solucion) # Se marca una carta aleatoriamente como incorrecta
 
             while randomIncorrecta in cartas_escogidas: # Si la carta que se escogio es parte de la solucion entonces se escoge otra
@@ -128,9 +136,22 @@ def corrida_backtracking(numParejas):
     solucion_cartas = get_cartas_iniciales() # Se obtiene la solucion
     parejas = crearParejas(numParejas, solucion_cartas) # Y luego se hacen las parejas
 
-    print(solucion_backtracking(cartas_juego, solucion_cartas, [], parejas)) # Para luego obtener la solucion mediante backtracking
+    solucion_backtracking(cartas_juego, solucion_cartas, [], parejas) # Para luego obtener la solucion mediante backtracking
+    #print(lista_soluciones)
+    return lista_soluciones
+
+def corrida_backtracking_alternativa(numParejas,solucion_cartas):
+    """[funcion que ejecuta todas las funciones necesarias para realizar la corrida del algoritmo]
+    Returns:
+        nada
+    """
+    parejas = crearParejas(numParejas, solucion_cartas) # Y luego se hacen las parejas
+
+    solucion_backtracking(cartas_juego, solucion_cartas, [], parejas) # Para luego obtener la solucion mediante backtracking
+    #print(lista_soluciones)
+    return lista_soluciones
 
 #timeBefore = time.time_ns()
-#corrida_backtracking(15)
+print(corrida_backtracking_alternativa(1,get_cartas_iniciales()))
 #timeAfter = time.time_ns()
 #print("Tiempo total de runtime:",timeAfter - timeBefore)
