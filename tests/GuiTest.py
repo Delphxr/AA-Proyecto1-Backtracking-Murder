@@ -9,10 +9,7 @@ global lista_soluciones
 global contador_solucion
 contador_solucion = 0
 
-lista_soluciones = backtracking.corrida_backtracking_alternativa(2,backtracking.get_cartas_iniciales())
-
-print("---------------------------------------------------------------------------------------------------------------------")
-print(lista_soluciones)
+lista_soluciones = backtracking.corrida_backtracking(2)
 
 #---------- Rutas Imagenes Cartas -------------- #
 ruta_sospechosos = "../Assets/Images/Cartas/Sospechosos/"

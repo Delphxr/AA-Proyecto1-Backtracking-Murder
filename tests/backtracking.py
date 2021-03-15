@@ -140,18 +140,7 @@ def corrida_backtracking(numParejas):
     #print(lista_soluciones)
     return lista_soluciones
 
-def corrida_backtracking_alternativa(numParejas,solucion_cartas):
-    """[funcion que ejecuta todas las funciones necesarias para realizar la corrida del algoritmo]
-    Returns:
-        nada
-    """
-    parejas = crearParejas(numParejas, solucion_cartas) # Y luego se hacen las parejas
-
-    solucion_backtracking(cartas_juego, solucion_cartas, [], parejas) # Para luego obtener la solucion mediante backtracking
-    #print(lista_soluciones)
-    return lista_soluciones
-
 #timeBefore = time.time_ns()
-print(corrida_backtracking_alternativa(1,get_cartas_iniciales()))
+#print(corrida_backtracking(1))
 #timeAfter = time.time_ns()
 #print("Tiempo total de runtime:",timeAfter - timeBefore)
