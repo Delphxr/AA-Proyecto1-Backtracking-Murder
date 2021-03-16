@@ -17,6 +17,8 @@ parejas_restringidas = []
 lista_soluciones = []
 respuesta_final = []
 
+
+
 encontrado = False
 
 
@@ -128,16 +130,16 @@ def crearParejas(numParejas, cartas_escogidas):
     return parejas
 
 # La funcion de la corrida en si
-def corrida_backtracking(numParejas):
+def corrida_backtracking(numParejas,respuesta_juego):
     """[funcion que ejecuta todas las funciones necesarias para realizar la corrida del algoritmo]
     Returns:
         nada
     """
-    solucion_cartas = get_cartas_iniciales() # Se obtiene la solucion
+    solucion_cartas = respuesta_juego # Se obtiene la solucion
     parejas = crearParejas(numParejas, solucion_cartas) # Y luego se hacen las parejas
 
     solucion_backtracking(cartas_juego, solucion_cartas, [], parejas) # Para luego obtener la solucion mediante backtracking
-    #print(lista_soluciones)
+    print(lista_soluciones)
     return lista_soluciones
 
 #timeBefore = time.time_ns()

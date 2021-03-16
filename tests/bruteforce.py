@@ -2,7 +2,7 @@ import random
 import os
 import time
 
-sospechosos = ["amigo", "novio", "vecino", "mensajero", "extranno", "hermanastro", "colega de trabajo"]
+sospechosos =  ["amigo", "novia", "vecino", "mensajero", "extranno", "hermanastro", "colegaDeTrabajo"]
 armas = ["pistola", "cuchillo", "machete", "pala", "bate", "botella", "tubo", "cuerda"]
 motivos = ["venganza", "celos", "dinero", "accidente", "drogas", "robo"]
 partes_del_cuerpo = ["cabeza", "pecho", "abdomen", "espalda", "piernas", "brazos"]
@@ -15,6 +15,9 @@ parejas_restringidas = []
 encontrado = False
 
 
+lista_soluciones_brute_force = [] #lista con todas las opciones que dio el algoritmo
+
+
 def get_cartas_iniciales():
     """[obtenemos la combinacion de cartas iniciales que debemos buscar]
 
@@ -24,11 +27,52 @@ def get_cartas_iniciales():
     new_cartas = []
     for elemento in cartas_juego:
         new_cartas += [random.choice(elemento)]
-    print("cartas: ", new_cartas)
+    print("resouesta de cartas: ", new_cartas)
     return new_cartas
 
 
-def solucion_bruteforce(cartas, cartas_escogidas, solucion, parejas):
+def get_incorrecta(cartas,solucion,respuesta):
+    """[summary]
+
+    Args:
+        cartas ([list]): [cartas que usamos en el juego]
+        solucion ([list]): [opcion de solucion que vamos a revisar si tiene una respuesta incorrecta]
+        respuesta ([list]): [respuesta del juego que vamos a usar para comparar]
+
+    Returns:
+        [list]: [cartas que usamos durante el ju, pero sin la opcin incorrecta]
+    """    
+    if solucion == respuesta:
+        return cartas
+    
+    carta_a_eliminar = ""
+    while True:
+        carta = random.choice(solucion)
+
+        if carta not in respuesta:
+            carta_a_eliminar = carta
+            #print("opcion a incorrecta: ",carta_a_eliminar)
+            break
+    for i in range(0,len(cartas)):
+        if carta_a_eliminar in cartas[i]:
+            cartas[i].remove(carta_a_eliminar)
+            #print("carta eliminada: ", cartas)
+            return cartas
+            
+            
+
+def solucion_bruteforce(cartas, cartas_escogidas, solucion):
+    """[solucion usando fuerza bruta]
+
+    Args:
+        cartas ([list]): [las cartas que usamos para encontrar la solucion]
+        cartas_escogidas ([list]): [la respuesta final del problema]
+        solucion ([lsit]): [la solucion temporal]
+        parejas ([list]): [las parejas restringuidas]
+
+    Returns:
+        [list]: [propuesta de solución]
+    """    
     global encontrado
     global cartas_incorrectas
     global cartas_correctas
@@ -39,22 +83,21 @@ def solucion_bruteforce(cartas, cartas_escogidas, solucion, parejas):
     solucion_temporal = []
 
     if len(solucion) == len(cartas_juego):
-        if solucion == cartas_escogidas:
-            print(solucion)
-            print("------------------------------------------ WIN  ----------------------------------")
+        #if solucion == cartas_escogidas:
+        if True:
             encontrado = True
             return solucion
         else:
             # print("LOSE ")
             pass
-        print(solucion)
+        #print(solucion)
 
         solucion = []
     else:
         for i in cartas:
             cartas = cartas[1:]
             for j in i:
-                solucion_bruteforce(cartas, cartas_escogidas, solucion + [j], parejas)
+                 return solucion_bruteforce(cartas, cartas_escogidas, solucion + [j])
 
 
 def crearParejas(numParejas, cartas_escogidas):
@@ -88,20 +131,32 @@ def crearParejas(numParejas, cartas_escogidas):
         parejas = parejas + fullPareja
         numParejas = numParejas - 1
 
-    print("parejas:", parejas)
+    #print("parejas:", parejas)
     return parejas
 
 
-def corrida_bruteforce(numParejas):
-    solucion_cartas = get_cartas_iniciales()
-    parejas = crearParejas(numParejas, solucion_cartas)
+def corrida_bruteforce(respuesta_juego):
+    global encontrado
+    global lista_soluciones_brute_force 
 
-    print(solucion_bruteforce(cartas_juego, solucion_cartas, [], parejas))
+    solucion_cartas = respuesta_juego
+    cartas_juego_aux = cartas_juego
+    solucion = []
+    while solucion != solucion_cartas:
+
+        solucion = solucion_bruteforce(cartas_juego_aux, solucion_cartas, [])
+        lista_soluciones_brute_force += [solucion]
+        #print(solucion)
+
+        cartas_juego_aux = get_incorrecta(cartas_juego_aux,solucion,solucion_cartas) #eliminamos una carta incorrecta de la lista de cartas viables
+        #input()
+        encontrado = False
+    print("bruteforce: ",lista_soluciones_brute_force)
+    return lista_soluciones_brute_force
 
 
-timeBefore = time.time_ns()
-corrida_bruteforce(15)
-timeAfter = time.time_ns()
-totalTime = timeAfter - timeBefore
-print("Tiempo total de runtime:", totalTime)
-# input()
+rs = get_cartas_iniciales()
+corrida_bruteforce(rs)
+
+
+

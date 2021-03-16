@@ -1,15 +1,19 @@
 import tkinter
 from tkinter import ttk
 import backtracking
+import bruteforce
 
 # ojo, si este import no funciona tiene que usar esto en la terminal -> pip install pillow
 from PIL import ImageTk, Image
 
 global lista_soluciones
+global lista_soluciones_BF
 global contador_solucion
 contador_solucion = 0
 
-lista_soluciones = backtracking.corrida_backtracking(2)
+respuesta_juego = bruteforce.get_cartas_iniciales()
+lista_soluciones = backtracking.corrida_backtracking(2,respuesta_juego)
+lista_soluciones_BF = bruteforce.corrida_bruteforce(respuesta_juego)
 
 #---------- Rutas Imagenes Cartas -------------- #
 ruta_sospechosos = "../Assets/Images/Cartas/Sospechosos/"
@@ -90,8 +94,8 @@ def boton_siguiente():
 
     new_cartas = []
     if contador_solucion < len(lista_soluciones):
-        new_cartas = lista_soluciones[contador_solucion]
-        cartas_fuerza_bruta.actualizar_cartas(new_cartas)
+        cartas_backtracking.actualizar_cartas(lista_soluciones[contador_solucion])
+        cartas_fuerza_bruta.actualizar_cartas(lista_soluciones_BF[contador_solucion])
         contador_solucion = contador_solucion + 1
 
 load_siguiente = Image.open("../Assets/Images/Botones/siguiente.png")
@@ -112,6 +116,7 @@ def boton_reinicio():
 
     new_cartas = backtracking.get_cartas_iniciales()
     cartas_fuerza_bruta.actualizar_cartas(new_cartas)
+    
 
 load_reinicio = Image.open("../Assets/Images/Botones/reiniciar.png")
 imagen_reinicio = ImageTk.PhotoImage(load_reinicio)
@@ -227,8 +232,8 @@ class Cartas():
 
 
 # ------------- generamos los sets de cartas necesarios para el programa -------- #
-cartas_fuerza_bruta = Cartas(160,45,[125,195])
-cartas_backtracking = Cartas(160,300,[125,195])
+cartas_backtracking = Cartas(160,45,[125,195])
+cartas_fuerza_bruta = Cartas(160,300,[125,195])
 cartas_respuesta = Cartas(918,358,[57,89],15)
 
 cartas_restriccion1 = Cartas(190,580,[82,127],60)
@@ -238,7 +243,7 @@ cartas_restriccion2 = Cartas(160,555,[82,127],60)
 #para que tengamos unas imagenes al iniciar el programa
 cartas_fuerza_bruta.actualizar_cartas(test_array_cartas)
 cartas_backtracking.actualizar_cartas(test_array_cartas)
-cartas_respuesta.actualizar_cartas(test_array_cartas)
+cartas_respuesta.actualizar_cartas(respuesta_juego)
 cartas_restriccion1.actualizar_cartas(test_array_cartas)
 cartas_restriccion2.actualizar_cartas(test_array_cartas)
 
