@@ -72,6 +72,13 @@ def solucion_backtracking(cartas, cartas_escogidas, solucion, parejas):
                     return
 
             #print(solucion)
+
+            for y in parejas: # y es una pareja de la lista de parejas
+                if all(item in solucion for item in y) == True: # Si tiene ambos objetos de la pareja en la solucion entonces no es una solucion valida
+                    parejas_restringidas = parejas_restringidas + [y] # Se agrega la pareja restringida a la lista de parejas restringidas conocidas
+                    #print("Combinacion contiene pareja restringida (se descartan futuras soluciones con esta pareja):",y)
+                    return
+            
             lista_soluciones = lista_soluciones + [solucion]
 
             randomIncorrecta = random.choice(solucion) # Se marca una carta aleatoriamente como incorrecta
@@ -81,12 +88,6 @@ def solucion_backtracking(cartas, cartas_escogidas, solucion, parejas):
 
             cartas_incorrectas = cartas_incorrectas + [randomIncorrecta] # Se agrega la carta marcada a la lista de cartas marcadas como incorrectas
             #print("Combinacion incorrecta. Carta marcada como incorrecta (se descartaran futuras soluciones con esta carta):",randomIncorrecta)
-
-            for y in parejas: # y es una pareja de la lista de parejas
-                if all(item in solucion for item in y) == True: # Si tiene ambos objetos de la pareja en la solucion entonces no es una solucion valida
-                    parejas_restringidas = parejas_restringidas + [y] # Se agrega la pareja restringida a la lista de parejas restringidas conocidas
-                    #print("Combinacion contiene pareja restringida (se descartan futuras soluciones con esta pareja):",y)
-                    return
 
         solucion = []
     else:
