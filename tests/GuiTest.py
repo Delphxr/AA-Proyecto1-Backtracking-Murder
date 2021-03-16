@@ -220,6 +220,7 @@ def nuevo_juego():
     variable_porcentage_backtracking.set(0)
     variable_porcentage_bf.set(0)
     variable_intentos.set(0)
+    variable_restricciones.set(numero_restricciones)
 
     lista_restringidas.delete('0','end') #con esto vaciamos las restringidas
     insertar_lista_retringida(list(backtracking.lista_parejas_restringidas))
