@@ -52,6 +52,8 @@ def get_incorrecta(cartas,solucion,respuesta):
     Returns:
         [list]: [cartas que usamos durante el ju, pero sin la opcin incorrecta]
     """    
+    global cartas_incorrectas
+
     if solucion == respuesta:
         return cartas
     
@@ -61,7 +63,8 @@ def get_incorrecta(cartas,solucion,respuesta):
 
         if carta not in respuesta:
             carta_a_eliminar = carta
-            #print("opcion a incorrecta: ",carta_a_eliminar)
+            cartas_incorrectas += [carta_a_eliminar]
+            
             break
     for i in range(0,len(cartas)):
         if carta_a_eliminar in cartas[i]:
@@ -149,12 +152,14 @@ def crearParejas(numParejas, cartas_escogidas):
 def corrida_bruteforce(respuesta_juego):
     global encontrado
     global lista_soluciones_brute_force 
+    global cartas_incorrectas
 
     lista_soluciones_brute_force = []
 
     solucion_cartas = respuesta_juego
     cartas_juego_aux = cartas_juego
     solucion = []
+    cartas_incorrectas = []
     while solucion != solucion_cartas:
 
         solucion = solucion_bruteforce(cartas_juego_aux, solucion_cartas, [])

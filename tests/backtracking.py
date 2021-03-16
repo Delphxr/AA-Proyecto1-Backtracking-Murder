@@ -163,6 +163,7 @@ def corrida_backtracking(numParejas,respuesta_juego):
     lista_parejas_restringidas = parejas
 
     solucion_backtracking(cartas_juego, solucion_cartas, [], parejas) # Para luego obtener la solucion mediante backtracking
+    
     print("backtracking: ", lista_soluciones)
     return lista_soluciones
 

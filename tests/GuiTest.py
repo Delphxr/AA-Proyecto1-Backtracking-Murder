@@ -11,12 +11,14 @@ global lista_soluciones_BF
 global contador_solucion
 global lista_parejas_restringidas
 
+
 contador_solucion = 0
 respuesta_juego = []
 lista_soluciones = []
 lista_soluciones_BF = []
 lista_parejas_restringidas = []
-
+lista_incorrectas_BF = []
+lista_incorrectas_BT = []
 
 
 #---------- Rutas Imagenes Cartas -------------- #
@@ -98,9 +100,7 @@ scrollbar.config(command=lista_incorrectas.yview)
 scrollbar.pack(side=tkinter.RIGHT, fill=tkinter.Y)
 lista_incorrectas.place(x=909,y=498)
 
-# metemos unos elementos de prueba
-for i in range(50):
-    lista_incorrectas.insert(tkinter.END, i)
+
 
 # ---------------------------------------------------------------- #
 
@@ -162,18 +162,36 @@ def boton_siguiente():
     global cantidad_intentos
     global contador_solucion
     
+    try:
+        cartas_bt_new = lista_soluciones.pop(0)
+        cartas_backtracking.actualizar_cartas(cartas_bt_new)
+    except:
+        pass  
 
-    new_cartas = []
-    if contador_solucion < len(lista_soluciones):
-        cartas_backtracking.actualizar_cartas(lista_soluciones[contador_solucion])
-        cartas_fuerza_bruta.actualizar_cartas(lista_soluciones_BF[contador_solucion])
+    try:
+        cartas_bf_new = lista_soluciones_BF.pop(0)
+        cartas_fuerza_bruta.actualizar_cartas(cartas_bf_new)
+    except:
+        pass
 
-        variable_porcentage_backtracking.set(get_porcentage(lista_soluciones[contador_solucion]))
-        variable_porcentage_bf.set(get_porcentage(lista_soluciones_BF[contador_solucion]))
+    try:
+        variable_porcentage_backtracking.set(get_porcentage(cartas_bt_new))
+        variable_porcentage_bf.set(get_porcentage(cartas_bf_new))
+    except:
+        pass
 
-        #lista_incorrectas.insert(tkinter.END, incorecta) #cuando se tenga una lista de las incorrectas se añade aquí
 
-        print(contador_solucion)
+    try:
+        lista_incorrectas.insert(tkinter.END, "BT - " + lista_incorrectas_BT.pop(0) )
+    except:
+        pass
+    try:    
+        lista_incorrectas.insert(tkinter.END, "BF - " + lista_incorrectas_BF.pop(0) )
+    except:
+        pass
+    lista_incorrectas.insert(tkinter.END, "" )
+        
+    if lista_soluciones != [] or lista_soluciones_BF != []:
         contador_solucion = contador_solucion + 1
         variable_intentos.set(contador_solucion)
 
@@ -206,6 +224,8 @@ def nuevo_juego():
     global respuesta_juego
     global lista_soluciones
     global lista_soluciones_BF
+    global lista_incorrectas_BF
+    global lista_incorrectas_BT
 
     numero_restricciones = caja_texto.get("1.0", "end-1c")
 
@@ -220,6 +240,8 @@ def nuevo_juego():
     
     lista_soluciones = backtracking.corrida_backtracking(numero_restricciones,respuesta_juego)
     lista_soluciones_BF = bruteforce.corrida_bruteforce(respuesta_juego)
+    lista_incorrectas_BT = backtracking.cartas_incorrectas
+    lista_incorrectas_BF = bruteforce.cartas_incorrectas
 
     cartas_respuesta.actualizar_cartas(respuesta_juego)
     cartas_fuerza_bruta.actualizar_cartas(cartas_vacias)
@@ -232,7 +254,7 @@ def nuevo_juego():
 
     lista_restringidas.delete('0','end') #con esto vaciamos las restringidas
     insertar_lista_retringida(list(backtracking.lista_parejas_restringidas))
-    #lista_incorrectas.delete('0','end') #con esto vaciamos las incorrectas
+    lista_incorrectas.delete('0','end') #con esto vaciamos las incorrectas
 
 
 class Cartas():
