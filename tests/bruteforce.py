@@ -107,7 +107,7 @@ def solucion_bruteforce(cartas, cartas_escogidas, solucion):
         for i in cartas:
             cartas = cartas[1:]
             for j in i:
-                j = random.choice(i)
+                j = random.choice(i) # Hace una combinacion al azar de cartas y de ahi se va refinando con las cartas incorrectas
                 return solucion_bruteforce(cartas, cartas_escogidas, solucion + [j])
 
 
