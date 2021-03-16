@@ -107,7 +107,8 @@ def solucion_bruteforce(cartas, cartas_escogidas, solucion):
         for i in cartas:
             cartas = cartas[1:]
             for j in i:
-                 return solucion_bruteforce(cartas, cartas_escogidas, solucion + [j])
+                j = random.choice(i)
+                return solucion_bruteforce(cartas, cartas_escogidas, solucion + [j])
 
 
 def crearParejas(numParejas, cartas_escogidas):
