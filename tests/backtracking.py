@@ -50,8 +50,9 @@ def solucion_backtracking(cartas, cartas_escogidas, solucion, parejas):
         return
 
     if len(solucion) == len(cartas_juego): # Si se tiene la combinacion con las 5 cartas
+        #print(lista_soluciones)
         if solucion == cartas_escogidas: # Si la combinacion es igual a la solucion entonces se ha ganado
-            print(solucion)
+
             lista_soluciones = lista_soluciones + [solucion]
             print("------------------------------------------ WIN  ----------------------------------")
             encontrado = True
@@ -67,20 +68,21 @@ def solucion_backtracking(cartas, cartas_escogidas, solucion, parejas):
                 if all(item in solucion for item in z) == True: #si tiene una pareja que fue detectada como restringida entonces se retorna
                     return
 
-            print(solucion)
+            #print(solucion)
             lista_soluciones = lista_soluciones + [solucion]
+
             randomIncorrecta = random.choice(solucion) # Se marca una carta aleatoriamente como incorrecta
 
             while randomIncorrecta in cartas_escogidas: # Si la carta que se escogio es parte de la solucion entonces se escoge otra
                 randomIncorrecta = random.choice(solucion)
 
             cartas_incorrectas = cartas_incorrectas + [randomIncorrecta] # Se agrega la carta marcada a la lista de cartas marcadas como incorrectas
-            print("Combinacion incorrecta. Carta marcada como incorrecta (se descartaran futuras soluciones con esta carta):",randomIncorrecta)
+            #print("Combinacion incorrecta. Carta marcada como incorrecta (se descartaran futuras soluciones con esta carta):",randomIncorrecta)
 
             for y in parejas: # y es una pareja de la lista de parejas
                 if all(item in solucion for item in y) == True: # Si tiene ambos objetos de la pareja en la solucion entonces no es una solucion valida
                     parejas_restringidas = parejas_restringidas + [y] # Se agrega la pareja restringida a la lista de parejas restringidas conocidas
-                    print("Combinacion contiene pareja restringida (se descartan futuras soluciones con esta pareja):",y)
+                    #print("Combinacion contiene pareja restringida (se descartan futuras soluciones con esta pareja):",y)
                     return
 
         solucion = []
@@ -113,7 +115,7 @@ def crearParejas(numParejas, cartas_escogidas):
         fullPareja = [[pareja1] + [pareja2]] # Se juntan las cartas para formar la careja
 
         while all(item in cartas_escogidas for item in fullPareja) == True: # Si la solucion contiene las cartas de la pareja formada, entonces se crea otra pareja hasta que la pareja no invalide la solucion
-            print("La pareja no puede contradecir a la solucion. Pareja que contradecia solucion:", fullPareja)
+            #print("La pareja no puede contradecir a la solucion. Pareja que contradecia solucion:", fullPareja)
             cartasPareja = random.choice(cartas_juego)
             pareja1 = random.choice(cartasPareja)
             cartasPareja = random.choice(cartas_juego)
@@ -121,12 +123,12 @@ def crearParejas(numParejas, cartas_escogidas):
             while pareja1 == pareja2:
                 pareja2 = random.choice(cartasPareja)
             fullPareja = [[pareja1] + [pareja2]]
-            print("La nueva pareja es:",fullPareja)
+            #print("La nueva pareja es:",fullPareja)
 
         parejas = parejas + fullPareja
         numParejas = numParejas - 1
 
-    print("parejas:",parejas)
+    #print("parejas:",parejas)
     return parejas
 
 # La funcion de la corrida en si
@@ -135,14 +137,26 @@ def corrida_backtracking(numParejas,respuesta_juego):
     Returns:
         nada
     """
+    global encontrado
+    global cartas_incorrectas
+    global cartas_correctas
+    global parejas_restringidas
+    global lista_soluciones
+    global respuesta_final
+
+    encontrado = False    
+    cartas_incorrectas = []
+    cartas_correctas = []
+    parejas_restringidas = []
+    lista_soluciones = []
+    respuesta_final = []
+    
+
+
     solucion_cartas = respuesta_juego # Se obtiene la solucion
     parejas = crearParejas(numParejas, solucion_cartas) # Y luego se hacen las parejas
 
     solucion_backtracking(cartas_juego, solucion_cartas, [], parejas) # Para luego obtener la solucion mediante backtracking
-    print(lista_soluciones)
+    print("backtracking: ", lista_soluciones)
     return lista_soluciones
 
-#timeBefore = time.time_ns()
-#print(corrida_backtracking(1))
-#timeAfter = time.time_ns()
-#print("Tiempo total de runtime:",timeAfter - timeBefore)

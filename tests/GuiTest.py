@@ -9,11 +9,13 @@ from PIL import ImageTk, Image
 global lista_soluciones
 global lista_soluciones_BF
 global contador_solucion
-contador_solucion = 0
 
-respuesta_juego = bruteforce.get_cartas_iniciales()
-lista_soluciones = backtracking.corrida_backtracking(2,respuesta_juego)
-lista_soluciones_BF = bruteforce.corrida_bruteforce(respuesta_juego)
+contador_solucion = 0
+respuesta_juego = []
+lista_soluciones = []
+lista_soluciones_BF = []
+
+
 
 #---------- Rutas Imagenes Cartas -------------- #
 ruta_sospechosos = "../Assets/Images/Cartas/Sospechosos/"
@@ -27,6 +29,7 @@ ruta_lugares = "../Assets/Images/Cartas/Lugares/"
 test_array_cartas = ["novia", "bate", "dinero", "cabeza", "banno"]
 test_array_cartas2 = ["mensajero", "bate", "dinero", "cabeza", "banno"]
 test_array_cartas3 = ["amigo", "bate", "dinero", "cabeza", "banno"]
+cartas_vacias = ["nada","nada","nada","nada","nada"]
 # ------------------------------------------#
 
 
@@ -107,7 +110,7 @@ def boton_siguiente():
         variable_porcentage_backtracking.set(get_porcentage(lista_soluciones[contador_solucion]))
         variable_porcentage_bf.set(get_porcentage(lista_soluciones_BF[contador_solucion]))
 
-
+        print(contador_solucion)
         contador_solucion = contador_solucion + 1
         variable_intentos.set(contador_solucion)
 
@@ -124,12 +127,7 @@ boton_siguiente.place(x=1200,y=640)
 def boton_reinicio():
     """[funcion que decide lo que sucede al presionar el boton de reinicio]
     """
-    global cantidad_intentos
-    cantidad_intentos = 0
-    variable_intentos.set(cantidad_intentos)
-
-    new_cartas = backtracking.get_cartas_iniciales()
-    cartas_fuerza_bruta.actualizar_cartas(new_cartas)
+    nuevo_juego()
     
 
 load_reinicio = Image.open("../Assets/Images/Botones/reiniciar.png")
@@ -138,6 +136,24 @@ boton_reinicio = tkinter.Button(ventana,image=imagen_reinicio, command=boton_rei
 boton_reinicio.place(x=1100,y=640)
 # ---------------------------------------------------------------- #
 
+def nuevo_juego():
+    global contador_solucion
+    global respuesta_juego
+    global lista_soluciones
+    global lista_soluciones_BF
+    contador_solucion = 0
+    respuesta_juego = bruteforce.get_cartas_iniciales()
+    
+    lista_soluciones = backtracking.corrida_backtracking(2,respuesta_juego)
+    lista_soluciones_BF = bruteforce.corrida_bruteforce(respuesta_juego)
+
+    cartas_respuesta.actualizar_cartas(respuesta_juego)
+    cartas_fuerza_bruta.actualizar_cartas(cartas_vacias)
+    cartas_backtracking.actualizar_cartas(cartas_vacias)
+
+    variable_porcentage_backtracking.set(0)
+    variable_porcentage_bf.set(0)
+    variable_intentos.set(0)
 
 
 class Cartas():
@@ -255,14 +271,14 @@ cartas_restriccion2 = Cartas(160,555,[82,127],60)
 # --------------------------------------------------------------------------------#
 
 #para que tengamos unas imagenes al iniciar el programa
-cartas_fuerza_bruta.actualizar_cartas(test_array_cartas)
-cartas_backtracking.actualizar_cartas(test_array_cartas)
-cartas_respuesta.actualizar_cartas(respuesta_juego)
-cartas_restriccion1.actualizar_cartas(test_array_cartas)
-cartas_restriccion2.actualizar_cartas(test_array_cartas)
+cartas_fuerza_bruta.actualizar_cartas(cartas_vacias)
+cartas_backtracking.actualizar_cartas(cartas_vacias)
+cartas_respuesta.actualizar_cartas(cartas_vacias)
+cartas_restriccion1.actualizar_cartas(cartas_vacias)
+cartas_restriccion2.actualizar_cartas(cartas_vacias)
 
 
-
+nuevo_juego()
 ventana.mainloop() #hacemos el gameloop
 
 

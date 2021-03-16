@@ -2,13 +2,7 @@ import random
 import os
 import time
 
-sospechosos =  ["amigo", "novia", "vecino", "mensajero", "extranno", "hermanastro", "colegaDeTrabajo"]
-armas = ["pistola", "cuchillo", "machete", "pala", "bate", "botella", "tubo", "cuerda"]
-motivos = ["venganza", "celos", "dinero", "accidente", "drogas", "robo"]
-partes_del_cuerpo = ["cabeza", "pecho", "abdomen", "espalda", "piernas", "brazos"]
-lugares = ["sala", "comedor", "banno", "terraza", "cuarto", "garage", "patio", "balcon", "cocina"]
 
-cartas_juego = [sospechosos, armas, motivos, partes_del_cuerpo, lugares]
 cartas_correctas = []
 cartas_incorrectas = []
 parejas_restringidas = []
@@ -16,18 +10,34 @@ encontrado = False
 
 
 lista_soluciones_brute_force = [] #lista con todas las opciones que dio el algoritmo
+cartas_juego = []
 
+
+def create_cartas():
+    global cartas_juego
+
+    sospechosos =  ["amigo", "novia", "vecino", "mensajero", "extranno", "hermanastro", "colegaDeTrabajo"]
+    armas = ["pistola", "cuchillo", "machete", "pala", "bate", "botella", "tubo", "cuerda"]
+    motivos = ["venganza", "celos", "dinero", "accidente", "drogas", "robo"]
+    partes_del_cuerpo = ["cabeza", "pecho", "abdomen", "espalda", "piernas", "brazos"]
+    lugares = ["sala", "comedor", "banno", "terraza", "cuarto", "garage", "patio", "balcon", "cocina"]
+
+    cartas_juego = [sospechosos, armas, motivos, partes_del_cuerpo, lugares]
 
 def get_cartas_iniciales():
+    random.seed(time.time_ns())
+    create_cartas()
     """[obtenemos la combinacion de cartas iniciales que debemos buscar]
 
     Returns:
         [array]: [array con las cartas obtenidas]
     """
     new_cartas = []
+
     for elemento in cartas_juego:
         new_cartas += [random.choice(elemento)]
-    print("resouesta de cartas: ", new_cartas)
+
+    print("\n\n",new_cartas)
     return new_cartas
 
 
@@ -139,6 +149,8 @@ def corrida_bruteforce(respuesta_juego):
     global encontrado
     global lista_soluciones_brute_force 
 
+    lista_soluciones_brute_force = []
+
     solucion_cartas = respuesta_juego
     cartas_juego_aux = cartas_juego
     solucion = []
@@ -154,9 +166,6 @@ def corrida_bruteforce(respuesta_juego):
     print("bruteforce: ",lista_soluciones_brute_force)
     return lista_soluciones_brute_force
 
-
-rs = get_cartas_iniciales()
-corrida_bruteforce(rs)
 
 
 
