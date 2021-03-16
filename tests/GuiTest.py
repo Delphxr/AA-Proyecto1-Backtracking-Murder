@@ -107,7 +107,7 @@ for i in range(50):
 
 scrollbar2 = tkinter.Scrollbar(ventana, orient=tkinter.VERTICAL)
 
-lista_restringidas = tkinter.Listbox(ventana, yscrollcommand=scrollbar2.set, bg="#3f071e",fg="White",selectbackground="#3f071e",width="40",height="6",font=("Consolas", 20),activestyle="none",borderwidth="0",highlightcolor="#3f071e",relief="flat", highlightbackground="#3f071e")
+lista_restringidas = tkinter.Listbox(ventana, yscrollcommand=scrollbar2.set, bg="#3f071e",fg="White",selectbackground="#3f071e",width="40",height="5",font=("Consolas", 20),activestyle="none",borderwidth="0",highlightcolor="#3f071e",relief="flat", highlightbackground="#3f071e")
 
 scrollbar2.config(command=lista_incorrectas.yview)
 
@@ -122,6 +122,22 @@ def insertar_lista_retringida(lista_parejas):
         index+=1
 
 # ---------------------------------------------------------------- #
+
+# ---------------- insertar el numero de resticciones ---------- #
+frame_texto = tkinter.Frame(ventana,width=64,height=32)
+frame_texto.place(x=900,y=640)
+frame_texto.columnconfigure(0,weight=10)
+frame_texto.grid_propagate(False)
+frame_texto.place(x=1000,y=677)
+
+
+caja_texto = tkinter.Text(frame_texto,width="64",height="64",font=("Consolas", 20),bg="#3f071e",fg="White",borderwidth="0",highlightcolor="#3f071e",relief="flat", highlightbackground="#3f071e")
+caja_texto.grid()
+caja_texto.insert(tkinter.INSERT, "2")
+
+
+# ---------------------------------------------------------------- #
+
 
 # ---------------- funcion para obtener porcentaje ---------- #
 def get_porcentage(cartas):
@@ -182,10 +198,19 @@ def nuevo_juego():
     global respuesta_juego
     global lista_soluciones
     global lista_soluciones_BF
+
+    numero_restricciones = caja_texto.get("1.0", "end-1c")
+
+    if numero_restricciones.isnumeric() == True:
+        numero_restricciones = int(numero_restricciones)
+    else:
+        numero_restricciones = 0
+
+
     contador_solucion = 0
     respuesta_juego = bruteforce.get_cartas_iniciales()
     
-    lista_soluciones = backtracking.corrida_backtracking(100,respuesta_juego)
+    lista_soluciones = backtracking.corrida_backtracking(numero_restricciones,respuesta_juego)
     lista_soluciones_BF = bruteforce.corrida_bruteforce(respuesta_juego)
 
     cartas_respuesta.actualizar_cartas(respuesta_juego)
@@ -196,6 +221,7 @@ def nuevo_juego():
     variable_porcentage_bf.set(0)
     variable_intentos.set(0)
 
+    lista_restringidas.delete('0','end') #con esto vaciamos las restringidas
     insertar_lista_retringida(list(backtracking.lista_parejas_restringidas))
     #lista_incorrectas.delete('0','end') #con esto vaciamos las incorrectas
 
