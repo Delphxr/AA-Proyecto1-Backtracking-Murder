@@ -40,6 +40,7 @@ cartas_vacias = ["nada","nada","nada","nada","nada"]
 ventana = tkinter.Tk() #creamos la ventana
 ventana.geometry("1280x720") #resolucion de la ventana
 ventana.title("Pigclue") #titulo de la ventana
+ventana.resizable(width=False, height=False)
 
 # ----------------------------------------------------------------#
 
@@ -115,6 +116,11 @@ scrollbar2.pack(side=tkinter.RIGHT, fill=tkinter.Y)
 lista_restringidas.place(x=160,y=550)
 
 def insertar_lista_retringida(lista_parejas):
+    """[insertamos las parejas de cartas restringidas a la gui]
+
+    Args:
+        lista_parejas ([lista]): [lista de listas que contienen las cartas restringidas]
+    """    
     index = 1
     for pareja in lista_parejas:
         juntas = str(index) + ") " + pareja[0].capitalize() + " - " + pareja[1].capitalize()
@@ -194,6 +200,8 @@ boton_reinicio.place(x=1100,y=640)
 # ---------------------------------------------------------------- #
 
 def nuevo_juego():
+    """[se reinicia todo y empezamos otro juego]
+    """    
     global contador_solucion
     global respuesta_juego
     global lista_soluciones
