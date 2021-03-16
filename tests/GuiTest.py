@@ -97,7 +97,6 @@ def boton_siguiente():
     """
     global cantidad_intentos
     global contador_solucion
-    cantidad_intentos += 1
     
 
     new_cartas = []
@@ -105,12 +104,14 @@ def boton_siguiente():
         cartas_backtracking.actualizar_cartas(lista_soluciones[contador_solucion])
         cartas_fuerza_bruta.actualizar_cartas(lista_soluciones_BF[contador_solucion])
 
-        contador_solucion = contador_solucion + 1
-        variable_intentos.set(contador_solucion)
-
         variable_porcentage_backtracking.set(get_porcentage(lista_soluciones[contador_solucion]))
         variable_porcentage_bf.set(get_porcentage(lista_soluciones_BF[contador_solucion]))
 
+
+        contador_solucion = contador_solucion + 1
+        variable_intentos.set(contador_solucion)
+
+        
 load_siguiente = Image.open("../Assets/Images/Botones/siguiente.png")
 imagen_siguiente = ImageTk.PhotoImage(load_siguiente)
 boton_siguiente = tkinter.Button(ventana,image=imagen_siguiente, command=boton_siguiente)
