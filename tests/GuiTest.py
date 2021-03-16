@@ -165,21 +165,16 @@ def boton_siguiente():
     try:
         cartas_bt_new = lista_soluciones.pop(0)
         cartas_backtracking.actualizar_cartas(cartas_bt_new)
+        variable_porcentage_backtracking.set(get_porcentage(cartas_bt_new))
     except:
         pass  
 
     try:
         cartas_bf_new = lista_soluciones_BF.pop(0)
         cartas_fuerza_bruta.actualizar_cartas(cartas_bf_new)
-    except:
-        pass
-
-    try:
-        variable_porcentage_backtracking.set(get_porcentage(cartas_bt_new))
         variable_porcentage_bf.set(get_porcentage(cartas_bf_new))
     except:
-        pass
-
+        pass 
 
     try:
         lista_incorrectas.insert(tkinter.END, "BT - " + lista_incorrectas_BT.pop(0) )
