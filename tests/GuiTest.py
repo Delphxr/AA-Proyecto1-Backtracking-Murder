@@ -81,7 +81,15 @@ label_restricciones.place(x=1225,y=310)
 
 # ---------------------------------------------------------------- #
 
+# ---------------- funcion para obtener porcentaje ---------- #
+def get_porcentage(cartas):
+    porcentage = 0
+    for carta in cartas:
+        if carta in respuesta_juego:
+            porcentage += 20
+    return porcentage
 
+# ---------------------------------------------------------------- #
 
 # -------------- Creamos el boton de siguiente paso -------------- #
 def boton_siguiente():
@@ -90,13 +98,18 @@ def boton_siguiente():
     global cantidad_intentos
     global contador_solucion
     cantidad_intentos += 1
-    variable_intentos.set(cantidad_intentos)
+    
 
     new_cartas = []
     if contador_solucion < len(lista_soluciones):
         cartas_backtracking.actualizar_cartas(lista_soluciones[contador_solucion])
         cartas_fuerza_bruta.actualizar_cartas(lista_soluciones_BF[contador_solucion])
+
         contador_solucion = contador_solucion + 1
+        variable_intentos.set(contador_solucion)
+
+        variable_porcentage_backtracking.set(get_porcentage(lista_soluciones[contador_solucion]))
+        variable_porcentage_bf.set(get_porcentage(lista_soluciones_BF[contador_solucion]))
 
 load_siguiente = Image.open("../Assets/Images/Botones/siguiente.png")
 imagen_siguiente = ImageTk.PhotoImage(load_siguiente)
