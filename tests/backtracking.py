@@ -17,6 +17,8 @@ parejas_restringidas = []
 lista_soluciones = []
 respuesta_final = []
 
+lista_parejas_restringidas = [] #lista con todas las parejas
+
 
 
 encontrado = False
@@ -66,6 +68,7 @@ def solucion_backtracking(cartas, cartas_escogidas, solucion, parejas):
 
             for z in parejas_restringidas: # Si la combinacion tiene una de las parejas restringidas, se descarta
                 if all(item in solucion for item in z) == True: #si tiene una pareja que fue detectada como restringida entonces se retorna
+                    
                     return
 
             #print(solucion)
@@ -141,6 +144,7 @@ def corrida_backtracking(numParejas,respuesta_juego):
     global cartas_incorrectas
     global cartas_correctas
     global parejas_restringidas
+    global lista_parejas_restringidas
     global lista_soluciones
     global respuesta_final
 
@@ -148,6 +152,7 @@ def corrida_backtracking(numParejas,respuesta_juego):
     cartas_incorrectas = []
     cartas_correctas = []
     parejas_restringidas = []
+    lista_parejas_restringidas = []
     lista_soluciones = []
     respuesta_final = []
     
@@ -155,6 +160,7 @@ def corrida_backtracking(numParejas,respuesta_juego):
 
     solucion_cartas = respuesta_juego # Se obtiene la solucion
     parejas = crearParejas(numParejas, solucion_cartas) # Y luego se hacen las parejas
+    lista_parejas_restringidas = parejas
 
     solucion_backtracking(cartas_juego, solucion_cartas, [], parejas) # Para luego obtener la solucion mediante backtracking
     print("backtracking: ", lista_soluciones)

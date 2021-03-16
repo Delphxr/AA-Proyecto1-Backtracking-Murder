@@ -9,11 +9,13 @@ from PIL import ImageTk, Image
 global lista_soluciones
 global lista_soluciones_BF
 global contador_solucion
+global lista_parejas_restringidas
 
 contador_solucion = 0
 respuesta_juego = []
 lista_soluciones = []
 lista_soluciones_BF = []
+lista_parejas_restringidas = []
 
 
 
@@ -84,12 +86,49 @@ label_restricciones.place(x=1225,y=310)
 
 # ---------------------------------------------------------------- #
 
+# ----------------- Lista con las cartas incorrectas --------------------------- #
+
+scrollbar = tkinter.Scrollbar(ventana, orient=tkinter.VERTICAL)
+
+lista_incorrectas = tkinter.Listbox(ventana, yscrollcommand=scrollbar.set, bg="#530d2c",fg="White",selectbackground="#530d2c",width="34",height="6",font=("Consolas", 15),activestyle="none",borderwidth="0",highlightcolor="#530d2c",relief="flat", highlightbackground="#530d2c")
+
+scrollbar.config(command=lista_incorrectas.yview)
+
+scrollbar.pack(side=tkinter.RIGHT, fill=tkinter.Y)
+lista_incorrectas.place(x=909,y=498)
+
+# metemos unos elementos de prueba
+for i in range(50):
+    lista_incorrectas.insert(tkinter.END, i)
+
+# ---------------------------------------------------------------- #
+
+# ----------------- Lista con las cartas parejas restringidas --------------------------- #
+
+scrollbar2 = tkinter.Scrollbar(ventana, orient=tkinter.VERTICAL)
+
+lista_restringidas = tkinter.Listbox(ventana, yscrollcommand=scrollbar2.set, bg="#3f071e",fg="White",selectbackground="#3f071e",width="40",height="6",font=("Consolas", 20),activestyle="none",borderwidth="0",highlightcolor="#3f071e",relief="flat", highlightbackground="#3f071e")
+
+scrollbar2.config(command=lista_incorrectas.yview)
+
+scrollbar2.pack(side=tkinter.RIGHT, fill=tkinter.Y)
+lista_restringidas.place(x=160,y=550)
+
+def insertar_lista_retringida(lista_parejas):
+    index = 1
+    for pareja in lista_parejas:
+        juntas = str(index) + ") " + pareja[0].capitalize() + " - " + pareja[1].capitalize()
+        lista_restringidas.insert(tkinter.END, juntas)
+        index+=1
+
+# ---------------------------------------------------------------- #
+
 # ---------------- funcion para obtener porcentaje ---------- #
 def get_porcentage(cartas):
     porcentage = 0
     for carta in cartas:
         if carta in respuesta_juego:
-            porcentage += 20
+            porcentage += 1
     return porcentage
 
 # ---------------------------------------------------------------- #
@@ -109,6 +148,8 @@ def boton_siguiente():
 
         variable_porcentage_backtracking.set(get_porcentage(lista_soluciones[contador_solucion]))
         variable_porcentage_bf.set(get_porcentage(lista_soluciones_BF[contador_solucion]))
+
+        #lista_incorrectas.insert(tkinter.END, incorecta) #cuando se tenga una lista de las incorrectas se añade aquí
 
         print(contador_solucion)
         contador_solucion = contador_solucion + 1
@@ -144,7 +185,7 @@ def nuevo_juego():
     contador_solucion = 0
     respuesta_juego = bruteforce.get_cartas_iniciales()
     
-    lista_soluciones = backtracking.corrida_backtracking(2,respuesta_juego)
+    lista_soluciones = backtracking.corrida_backtracking(100,respuesta_juego)
     lista_soluciones_BF = bruteforce.corrida_bruteforce(respuesta_juego)
 
     cartas_respuesta.actualizar_cartas(respuesta_juego)
@@ -154,6 +195,9 @@ def nuevo_juego():
     variable_porcentage_backtracking.set(0)
     variable_porcentage_bf.set(0)
     variable_intentos.set(0)
+
+    insertar_lista_retringida(list(backtracking.lista_parejas_restringidas))
+    #lista_incorrectas.delete('0','end') #con esto vaciamos las incorrectas
 
 
 class Cartas():
@@ -266,16 +310,17 @@ cartas_backtracking = Cartas(160,45,[125,195])
 cartas_fuerza_bruta = Cartas(160,300,[125,195])
 cartas_respuesta = Cartas(918,358,[57,89],15)
 
-cartas_restriccion1 = Cartas(190,580,[82,127],60)
-cartas_restriccion2 = Cartas(160,555,[82,127],60)
+#cartas_restriccion1 = Cartas(190,580,[82,127],60)
+#cartas_restriccion2 = Cartas(160,555,[82,127],60)
 # --------------------------------------------------------------------------------#
 
 #para que tengamos unas imagenes al iniciar el programa
 cartas_fuerza_bruta.actualizar_cartas(cartas_vacias)
 cartas_backtracking.actualizar_cartas(cartas_vacias)
 cartas_respuesta.actualizar_cartas(cartas_vacias)
-cartas_restriccion1.actualizar_cartas(cartas_vacias)
-cartas_restriccion2.actualizar_cartas(cartas_vacias)
+#cartas_restriccion1.actualizar_cartas(cartas_vacias)
+#cartas_restriccion2.actualizar_cartas(cartas_vacias)
+
 
 
 nuevo_juego()
