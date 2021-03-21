@@ -56,8 +56,7 @@ def get_incorrecta(cartas,solucion,respuesta):
 
     if solucion == respuesta:
         return cartas
-    
-    carta_a_eliminar = ""
+
     while True:
         carta = random.choice(solucion)
 
@@ -69,7 +68,6 @@ def get_incorrecta(cartas,solucion,respuesta):
     for i in range(0,len(cartas)):
         if carta_a_eliminar in cartas[i]:
             cartas[i].remove(carta_a_eliminar)
-            #print("carta eliminada: ", cartas)
             return cartas
             
             
@@ -93,17 +91,11 @@ def solucion_bruteforce(cartas, cartas_escogidas, solucion):
 
     if encontrado == True:
         return
-    solucion_temporal = []
 
     if len(solucion) == len(cartas_juego):
-        #if solucion == cartas_escogidas:
         if True:
             encontrado = True
             return solucion
-        else:
-            # print("LOSE ")
-            pass
-        #print(solucion)
 
         solucion = []
     else:
@@ -113,41 +105,33 @@ def solucion_bruteforce(cartas, cartas_escogidas, solucion):
                 j = random.choice(i) # Hace una combinacion al azar de cartas y de ahi se va refinando con las cartas incorrectas
                 return solucion_bruteforce(cartas, cartas_escogidas, solucion + [j])
 
+def crearParejasAux():
+
+    cartasPareja = random.choice(cartas_juego)
+    pareja1 = random.choice(cartasPareja)
+
+    cartasPareja = random.choice(cartas_juego)
+    pareja2 = random.choice(cartasPareja)
+
+    while pareja1 == pareja2:
+        pareja2 = random.choice(cartasPareja)
+    fullPareja = [[pareja1] + [pareja2]]
+    return fullPareja
 
 def crearParejas(numParejas, cartas_escogidas):
     parejas = []
-    fullPareja = []
 
     while numParejas != 0:
-        cartasPareja = random.choice(cartas_juego)
-        pareja1 = random.choice(cartasPareja)
-
-        cartasPareja = random.choice(cartas_juego)
-        pareja2 = random.choice(cartasPareja)
-
-        while pareja1 == pareja2:
-            pareja2 = random.choice(cartasPareja)
-
-        fullPareja = [[pareja1] + [pareja2]]
+        fullPareja = crearParejasAux()
 
         while all(item in cartas_escogidas for item in
                   fullPareja) == True:  # si la solucion contiene las cartas de la pareja formada, entonces se crea otra pareja hasta que la pareja no invalide la solucion
-            print("La pareja no puede contradecir a la solucion. Pareja que contradecia solucion:", fullPareja)
-            cartasPareja = random.choice(cartas_juego)
-            pareja1 = random.choice(cartasPareja)
-            cartasPareja = random.choice(cartas_juego)
-            pareja2 = random.choice(cartasPareja)
-            while pareja1 == pareja2:
-                pareja2 = random.choice(cartasPareja)
-            fullPareja = [[pareja1] + [pareja2]]
-            print("La nueva pareja es:", fullPareja)
+            fullPareja = crearParejasAux()
 
         parejas = parejas + fullPareja
         numParejas = numParejas - 1
 
-    #print("parejas:", parejas)
     return parejas
-
 
 def corrida_bruteforce(respuesta_juego):
     global encontrado
@@ -164,10 +148,8 @@ def corrida_bruteforce(respuesta_juego):
 
         solucion = solucion_bruteforce(cartas_juego_aux, solucion_cartas, [])
         lista_soluciones_brute_force += [solucion]
-        #print(solucion)
 
         cartas_juego_aux = get_incorrecta(cartas_juego_aux,solucion,solucion_cartas) #eliminamos una carta incorrecta de la lista de cartas viables
-        #input()
         encontrado = False
     print("bruteforce: ",lista_soluciones_brute_force)
     return lista_soluciones_brute_force

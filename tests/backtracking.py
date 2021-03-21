@@ -52,7 +52,6 @@ def solucion_backtracking(cartas, cartas_escogidas, solucion, parejas):
         return
 
     if len(solucion) == len(cartas_juego): # Si se tiene la combinacion con las 5 cartas
-        #print(lista_soluciones)
         if solucion == cartas_escogidas: # Si la combinacion es igual a la solucion entonces se ha ganado
 
             lista_soluciones = lista_soluciones + [solucion]
@@ -71,12 +70,9 @@ def solucion_backtracking(cartas, cartas_escogidas, solucion, parejas):
                     
                     return
 
-            #print(solucion)
-
             for y in parejas: # y es una pareja de la lista de parejas
                 if all(item in solucion for item in y) == True: # Si tiene ambos objetos de la pareja en la solucion entonces no es una solucion valida
                     parejas_restringidas = parejas_restringidas + [y] # Se agrega la pareja restringida a la lista de parejas restringidas conocidas
-                    #print("Combinacion contiene pareja restringida (se descartan futuras soluciones con esta pareja):",y)
                     return
             
             lista_soluciones = lista_soluciones + [solucion]
@@ -87,7 +83,6 @@ def solucion_backtracking(cartas, cartas_escogidas, solucion, parejas):
                 randomIncorrecta = random.choice(solucion)
 
             cartas_incorrectas = cartas_incorrectas + [randomIncorrecta] # Se agrega la carta marcada a la lista de cartas marcadas como incorrectas
-            #print("Combinacion incorrecta. Carta marcada como incorrecta (se descartaran futuras soluciones con esta carta):",randomIncorrecta)
 
         solucion = []
     else:
@@ -97,42 +92,32 @@ def solucion_backtracking(cartas, cartas_escogidas, solucion, parejas):
                 solucion_backtracking(cartas, cartas_escogidas, solucion + [j], parejas) # Se forman las combinaciones recursivamente
 
 # Se crean las parejas restringidas
-def crearParejas(numParejas, cartas_escogidas):
-    """[se forman las parejas restringidas]
-    Returns:
-        [array]: [array con el/los arrays que contienen las parejas restringidas]
-    """
-    parejas = []
-    fullPareja = []
+def crearParejasAux():
 
-    # En este ciclo se crea una pareja por la cantidad de veces dada como un parametro
-    while numParejas != 0:
-        cartasPareja = random.choice(cartas_juego) # Escoge una carta aleatoria de las cartas del juego
-        pareja1 = random.choice(cartasPareja)
+    cartasPareja = random.choice(cartas_juego)
+    pareja1 = random.choice(cartasPareja)
 
-        cartasPareja = random.choice(cartas_juego)
+    cartasPareja = random.choice(cartas_juego)
+    pareja2 = random.choice(cartasPareja)
+
+    while pareja1 == pareja2:
         pareja2 = random.choice(cartasPareja)
+    fullPareja = [[pareja1] + [pareja2]]
+    return fullPareja
 
-        while pareja1 == pareja2: # Valida que la segunda no sea la misma que la primera carta
-            pareja2 = random.choice(cartasPareja)
+def crearParejas(numParejas, cartas_escogidas):
+    parejas = []
 
-        fullPareja = [[pareja1] + [pareja2]] # Se juntan las cartas para formar la careja
+    while numParejas != 0:
+        fullPareja = crearParejasAux()
 
-        while all(item in cartas_escogidas for item in fullPareja) == True: # Si la solucion contiene las cartas de la pareja formada, entonces se crea otra pareja hasta que la pareja no invalide la solucion
-            #print("La pareja no puede contradecir a la solucion. Pareja que contradecia solucion:", fullPareja)
-            cartasPareja = random.choice(cartas_juego)
-            pareja1 = random.choice(cartasPareja)
-            cartasPareja = random.choice(cartas_juego)
-            pareja2 = random.choice(cartasPareja)
-            while pareja1 == pareja2:
-                pareja2 = random.choice(cartasPareja)
-            fullPareja = [[pareja1] + [pareja2]]
-            #print("La nueva pareja es:",fullPareja)
+        while all(item in cartas_escogidas for item in
+                  fullPareja) == True:  # si la solucion contiene las cartas de la pareja formada, entonces se crea otra pareja hasta que la pareja no invalide la solucion
+            fullPareja = crearParejasAux()
 
         parejas = parejas + fullPareja
         numParejas = numParejas - 1
 
-    #print("parejas:",parejas)
     return parejas
 
 # La funcion de la corrida en si

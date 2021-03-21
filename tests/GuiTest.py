@@ -362,16 +362,12 @@ cartas_backtracking = Cartas(160,45,[125,195])
 cartas_fuerza_bruta = Cartas(160,300,[125,195])
 cartas_respuesta = Cartas(918,358,[57,89],15)
 
-#cartas_restriccion1 = Cartas(190,580,[82,127],60)
-#cartas_restriccion2 = Cartas(160,555,[82,127],60)
 # --------------------------------------------------------------------------------#
 
 #para que tengamos unas imagenes al iniciar el programa
 cartas_fuerza_bruta.actualizar_cartas(cartas_vacias)
 cartas_backtracking.actualizar_cartas(cartas_vacias)
 cartas_respuesta.actualizar_cartas(cartas_vacias)
-#cartas_restriccion1.actualizar_cartas(cartas_vacias)
-#cartas_restriccion2.actualizar_cartas(cartas_vacias)
 
 
 
