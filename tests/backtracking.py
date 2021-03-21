@@ -25,10 +25,15 @@ encontrado = False
 
 
 def get_cartas_iniciales():
-    """[obtenemos la combinacion de cartas iniciales que debemos buscar]
+    """[Funcion en donde se obtienen la combinacion de cartas iniciales que debemos buscar]
+
+    Args:
+        Ninguno
+
     Returns:
-        [array]: [array con las cartas obtenidas]
+        [list]: [Lista con las cartas obtenidas]
     """
+
     new_cartas = []
     for elemento in cartas_juego:
         new_cartas += [random.choice(elemento)]
@@ -37,10 +42,18 @@ def get_cartas_iniciales():
 
 # El algoritmo de backtracking
 def solucion_backtracking(cartas, cartas_escogidas, solucion, parejas):
-    """[se forman combinaciones recursivamente mediante backtracking hasta obtener la solucion]
+    """[Funcion en donde se forman combinaciones recursivamente mediante backtracking hasta obtener la solucion]
+
+    Args:
+        cartas ([list]): [La lista de todas las cartas posibles]
+        cartas_escogidas ([list]): [La lista de cartas que se escogieron como la solucion que se busca]
+        solucion ([list]): [La lista con las cartas escogidas, es la combinacion que se desea probar]
+        parejas ([list]): [La lista con todas las parejas restringidas que no pueden estar presentes en la solucion]
+
     Returns:
-        [array]: [array con la solucion obtenida]
+        [list]: [Lista con la solucion obtenida]
     """
+
     global encontrado
     global cartas_incorrectas
     global cartas_correctas
@@ -93,6 +106,14 @@ def solucion_backtracking(cartas, cartas_escogidas, solucion, parejas):
 
 # Se crean las parejas restringidas
 def crearParejasAux():
+    """[Funcion auxiliar para la funcion crearParejas. Crea una pareja restringida.]
+
+    Args:
+        Ninguno
+
+    Returns:
+        [list]: [Lista con la pareja restringida creada.]
+    """
 
     cartasPareja = random.choice(cartas_juego)
     pareja1 = random.choice(cartasPareja)
@@ -106,6 +127,16 @@ def crearParejasAux():
     return fullPareja
 
 def crearParejas(numParejas, cartas_escogidas):
+    """[Funcion que crea la lista con todas las parejas restringidas]
+
+    Args:
+        numParejas (int): [La cantidad solicitada de parejas restringidas que se desea crear]
+        cartas_escogidas ([list]): [La lista de cartas que se escogieron como la solucion que se busca]
+
+    Returns:
+        [list]: [Lista con las parejas restringidas]
+    """
+
     parejas = []
 
     while numParejas != 0:
@@ -122,10 +153,16 @@ def crearParejas(numParejas, cartas_escogidas):
 
 # La funcion de la corrida en si
 def corrida_backtracking(numParejas,respuesta_juego):
-    """[funcion que ejecuta todas las funciones necesarias para realizar la corrida del algoritmo]
+    """[Funcion en donde se hace la corrida del algoritmo de backtracking y se corren todas las funciones necesarias para hacer esto]
+
+    Args:
+        numParejas (int): [La cantidad de parejas restringidas que se desea formar]
+        respuesta_juego ([list]): [Las cartas iniciales que se escogieron como solucion]
+
     Returns:
-        nada
+        [list]: [Lista con las combinaciones formadas para llegar a la solucion deseada]
     """
+
     global encontrado
     global cartas_incorrectas
     global cartas_correctas
