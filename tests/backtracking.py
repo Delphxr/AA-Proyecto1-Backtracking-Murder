@@ -68,7 +68,6 @@ def solucion_backtracking(cartas, cartas_escogidas, solucion, parejas):
         if solucion == cartas_escogidas: # Si la combinacion es igual a la solucion entonces se ha ganado
 
             lista_soluciones = lista_soluciones + [solucion]
-            print("------------------------------------------ WIN  ----------------------------------")
             encontrado = True
             respuesta_final = solucion
             return solucion
@@ -102,7 +101,8 @@ def solucion_backtracking(cartas, cartas_escogidas, solucion, parejas):
         for i in cartas: # cada i es una categoria de las cartas del juego
             cartas = cartas[1:]
             for j in i: # cada j es un item perteneciente a una categoria
-                solucion_backtracking(cartas, cartas_escogidas, solucion + [j], parejas) # Se forman las combinaciones recursivamente
+                if j not in cartas_incorrectas:
+                    solucion_backtracking(cartas, cartas_escogidas, solucion + [j], parejas) # Se forman las combinaciones recursivamente
 
 # Se crean las parejas restringidas
 def crearParejasAux():
