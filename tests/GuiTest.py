@@ -1,3 +1,4 @@
+import time
 import tkinter
 from tkinter import ttk
 import backtracking
@@ -54,6 +55,38 @@ fondo.pack()
 
 # -------------- Creamos los labels de informacion -------------- #
 
+#tiempo de ejecucion backtracking
+tiempo_ejecucion_bt = 0
+variable_tiempo_ejecucion_bt = tkinter.StringVar()
+variable_tiempo_ejecucion_bt.set(tiempo_ejecucion_bt)
+label_tiempo_ejecucion_bt = tkinter.Label(ventana,textvariable=variable_tiempo_ejecucion_bt,bg="#3c0620",fg="White")
+label_tiempo_ejecucion_bt.config(font=("Consolas",18))
+label_tiempo_ejecucion_bt.place(x=10,y=250)
+
+#label tiempo backtracking
+tiempo_bt = 0
+variable_tiempo_bt = tkinter.StringVar()
+variable_tiempo_bt.set("Tiempo (ns):")
+label_tiempo_bt = tkinter.Label(ventana,textvariable=variable_tiempo_bt,bg="#3c0620",fg="White")
+label_tiempo_bt.config(font=("Consolas",16))
+label_tiempo_bt.place(x=5,y=210)
+
+#tiempo de ejecucion bruteforce
+tiempo_ejecucion_bf = 0
+variable_tiempo_ejecucion_bf = tkinter.StringVar()
+variable_tiempo_ejecucion_bf.set(tiempo_ejecucion_bf)
+label_tiempo_ejecucion_bf = tkinter.Label(ventana,textvariable=variable_tiempo_ejecucion_bf,bg="#3c0620",fg="White")
+label_tiempo_ejecucion_bf.config(font=("Consolas",18))
+label_tiempo_ejecucion_bf.place(x=10,y=500)
+
+#label tiempo bruteforce
+tiempo_bf = 0
+variable_tiempo_bf = tkinter.StringVar()
+variable_tiempo_bf.set("Tiempo (ns):")
+label_tiempo_bf = tkinter.Label(ventana,textvariable=variable_tiempo_bf,bg="#3c0620",fg="White")
+label_tiempo_bf.config(font=("Consolas",16))
+label_tiempo_bf.place(x=5,y=460)
+
 #intentos
 cantidad_intentos =0
 variable_intentos = tkinter.StringVar()
@@ -85,7 +118,6 @@ variable_restricciones.set(cantidad_restricciones)
 label_restricciones = tkinter.Label(ventana,textvariable=variable_restricciones,bg="#3c0620",fg="White")
 label_restricciones.config(font=("Consolas", 28))
 label_restricciones.place(x=1225,y=310)
-
 
 # ---------------------------------------------------------------- #
 
@@ -129,7 +161,7 @@ def insertar_lista_retringida(lista_parejas):
 
 # ---------------------------------------------------------------- #
 
-# ---------------- insertar el numero de resticciones ---------- #
+# ---------------- insertar el numero de restricciones ---------- #
 frame_texto = tkinter.Frame(ventana,width=64,height=32)
 frame_texto.place(x=900,y=640)
 frame_texto.columnconfigure(0,weight=10)
@@ -232,9 +264,15 @@ def nuevo_juego():
 
     contador_solucion = 0
     respuesta_juego = bruteforce.get_cartas_iniciales()
-    
+
+    tiempo_antes_bt = time.time_ns()
     lista_soluciones = backtracking.corrida_backtracking(numero_restricciones,respuesta_juego)
+    tiempo_ejecucion_bt = time.time_ns() - tiempo_antes_bt
+
+    tiempo_antes_bf = time.time_ns()
     lista_soluciones_BF = bruteforce.corrida_bruteforce(respuesta_juego)
+    tiempo_ejecucion_bf = time.time_ns() - tiempo_antes_bf
+
     lista_incorrectas_BT = backtracking.cartas_incorrectas
     lista_incorrectas_BF = bruteforce.cartas_incorrectas
 
@@ -246,6 +284,10 @@ def nuevo_juego():
     variable_porcentage_bf.set(0)
     variable_intentos.set(0)
     variable_restricciones.set(numero_restricciones)
+    variable_tiempo_ejecucion_bt.set(tiempo_ejecucion_bt)
+    variable_tiempo_bt.set("Tiempo (ns):")
+    variable_tiempo_ejecucion_bf.set(tiempo_ejecucion_bf)
+    variable_tiempo_bf.set("Tiempo (ns):")
 
     lista_restringidas.delete('0','end') #con esto vaciamos las restringidas
     insertar_lista_retringida(list(backtracking.lista_parejas_restringidas))
