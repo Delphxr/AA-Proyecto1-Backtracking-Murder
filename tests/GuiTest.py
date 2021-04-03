@@ -302,8 +302,8 @@ class Cartas():
 
         Args:
             posicionx ([int]): [la posicion en x de la carta inicial]
-            posiciony ([int]): [la pocision en y de la carta inicial]
-            tamanno (list, optional): [el tamaño que van a tener las cartas, en pixeles]. Defaults to [180,280].
+            posiciony ([int]): [la posicion en y de la carta inicial]
+            tamanno (list, optional): [el tamano que van a tener las cartas, en pixeles]. Defaults to [180,280].
             espacio ([int]): [la cantidad de pixeles entre cada carta]. Defaults to 20
         """
         self.posicion_y = posiciony
